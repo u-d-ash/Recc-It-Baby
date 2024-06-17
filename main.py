@@ -3,8 +3,6 @@ from functions import get_rex
 import pandas as pd
 import numpy as np
 
-st.set_page_config(layout="wide")
-
 st.title("Word2Recc : Movie Recommendations")
 
 st.text("Enter a movie title below and the app will recommend similar movies. Changing the weights will alter the recommendations.")

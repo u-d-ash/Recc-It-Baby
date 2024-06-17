@@ -5,3 +5,5 @@ gensim
 requests
 streamlit
 nltk
+SQLAlchemy==1.4
+mysqlclient
