@@ -1,4 +1,0 @@
-1. Data scraping python module
-2. Implement CI/CD Pipeline
-3. Deploy on Website
-4. Done
