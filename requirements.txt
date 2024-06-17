@@ -1,4 +1,3 @@
-sqlite3
 numpy
 pandas
 gensim
