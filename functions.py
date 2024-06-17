@@ -5,9 +5,6 @@ conn = sqlite3.connect('movie_main.db', check_same_thread=False)
 
 c = conn.cursor()
 
-import nltk
-nltk.download()
-
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from nltk.tokenize import word_tokenize
