@@ -3,6 +3,8 @@ from scipy import spatial
 from streamlit.connections import SQLConnection
 import streamlit as st
 from sqlalchemy import text
+import traceback
+import logging
 
 st.set_page_config(layout="wide")
 
@@ -62,14 +64,15 @@ def get_rex(movie_name, dir_w, cast_w, gen_w):
     print(resp_dict)
 
     if(resp_dict["Response"] == "True"):
-        movie_title = resp_dict["Title"]
-        with conn.session as s:
-            list = conn.query(f"select * from movies where title = \"{movie_title}\"")
-
-        if(len(list) == 0):
-            with conn.session as s:
-                s.execute(text("INSERT INTO movies VALUES (:title, :genre, :director, :cast, :plot)"), params = {'title': resp_dict["Title"], 'genre': resp_dict["Genre"], 'director': resp_dict["Director"], 'cast' : resp_dict["Actors"], 'plot' : resp_dict["Plot"]})
-                s.commit()
+        list = conn.query(f"select * from movies where title = \"{resp_dict['Title']}\"")
+        print(list)
+        if(len(list.index) == 0):
+            try:
+                with conn.session as s:
+                    s.execute(text("insert into movies values (:title, :genre, :director, :cast, :plot)"), params = {'title': resp_dict["Title"], 'genre': resp_dict["Genre"], 'director': resp_dict["Director"], 'cast' : resp_dict["Actors"], 'plot' : resp_dict["Plot"]})
+                    s.commit()
+            except Exception as e:
+                logging.error(traceback.format_exc())
     else:
         return 0, ["Movie Not Found"]
     
