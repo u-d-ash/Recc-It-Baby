@@ -61,8 +61,6 @@ def get_rex(movie_name, dir_w, cast_w, gen_w):
 
     resp_dict = json.loads(init_resp.text)
 
-    print(resp_dict)
-
     if(resp_dict["Response"] == "True"):
         list = conn.query(f"select * from movies where title = \"{resp_dict['Title']}\"")
         print(list)
@@ -76,10 +74,7 @@ def get_rex(movie_name, dir_w, cast_w, gen_w):
     else:
         return 0, ["Movie Not Found"]
     
-    movie_dataframe =  conn.query("select * from movies")
-    m2 = conn.query(f"select * from movies where title = \"{resp_dict['Title']}\"")
-
-    print(m2)
+    movie_dataframe = conn.query("select * from movies")
 
     clean_df(movie_dataframe)
 
@@ -111,3 +106,17 @@ def get_rex(movie_name, dir_w, cast_w, gen_w):
     recclist.reverse()
 
     return 1, recclist
+
+
+
+    
+
+
+    
+
+    
+
+
+    
+
+
