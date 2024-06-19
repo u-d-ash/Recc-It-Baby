@@ -1,16 +1,7 @@
 from imports import *
 from scipy import spatial
-<<<<<<< HEAD
-from streamlit.connections import SQLConnection
-import streamlit as st
-from sqlalchemy import text
-import traceback
-import logging
-=======
->>>>>>> parent of f13de00 (hopefully the deployment works)
 
 conn = sqlite3.connect('movie_main.db', check_same_thread=False)
-
 c = conn.cursor()
 
 import nltk
@@ -65,26 +56,14 @@ def get_rex(movie_name, dir_w, cast_w, gen_w):
     resp_dict = json.loads(init_resp.text)
 
     if(resp_dict["Response"] == "True"):
-<<<<<<< HEAD
-        list = conn.query(f"select * from movies where title = \"{resp_dict['Title']}\"")
+        list = pd.read_sql_query(f"select * from movies where title = \"{resp_dict['Title']}\"", conn)
         print(list)
         if(len(list.index) == 0):
             try:
-                with conn.session as s:
-                    s.execute(text("insert into movies values (:title, :genre, :director, :cast, :plot)"), params = {'title': resp_dict["Title"], 'genre': resp_dict["Genre"], 'director': resp_dict["Director"], 'cast' : resp_dict["Actors"], 'plot' : resp_dict["Plot"]})
-                    s.commit()
-            except Exception as e:
-                logging.error(traceback.format_exc())
-=======
-        movie_title = resp_dict["Title"]
-        c.execute(f"SELECT * FROM movies where title = \"{movie_title}\"")
-        list = c.fetchone()
-        if(list == None):
-            newmovie = True
-            with conn:
-                c.execute("INSERT INTO movies VALUES (:title, :genre, :director, :cast, :plot)", {'title': resp_dict["Title"], 'genre': resp_dict["Genre"], 'director': resp_dict["Director"], 'cast' : resp_dict["Actors"], 'plot' : resp_dict["Plot"]})
+                c.execute("insert into movies values (:title, :genre, :director, :cast, :plot)", {'title': resp_dict["Title"], 'genre': resp_dict["Genre"], 'director': resp_dict["Director"], 'cast' : resp_dict["Actors"], 'plot' : resp_dict["Plot"]})
                 conn.commit()
->>>>>>> parent of f13de00 (hopefully the deployment works)
+            except Exception as e:
+                print(e)
     else:
         return 0, ["Movie Not Found"]
     
