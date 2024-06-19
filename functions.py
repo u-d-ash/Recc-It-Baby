@@ -1,14 +1,17 @@
 from imports import *
 from scipy import spatial
+<<<<<<< HEAD
 from streamlit.connections import SQLConnection
 import streamlit as st
 from sqlalchemy import text
 import traceback
 import logging
+=======
+>>>>>>> parent of f13de00 (hopefully the deployment works)
 
-st.set_page_config(layout="wide")
+conn = sqlite3.connect('movie_main.db', check_same_thread=False)
 
-conn = st.connection('movie_main', type=SQLConnection)
+c = conn.cursor()
 
 import nltk
 nltk.download('stopwords')
@@ -62,6 +65,7 @@ def get_rex(movie_name, dir_w, cast_w, gen_w):
     resp_dict = json.loads(init_resp.text)
 
     if(resp_dict["Response"] == "True"):
+<<<<<<< HEAD
         list = conn.query(f"select * from movies where title = \"{resp_dict['Title']}\"")
         print(list)
         if(len(list.index) == 0):
@@ -71,10 +75,22 @@ def get_rex(movie_name, dir_w, cast_w, gen_w):
                     s.commit()
             except Exception as e:
                 logging.error(traceback.format_exc())
+=======
+        movie_title = resp_dict["Title"]
+        c.execute(f"SELECT * FROM movies where title = \"{movie_title}\"")
+        list = c.fetchone()
+        if(list == None):
+            newmovie = True
+            with conn:
+                c.execute("INSERT INTO movies VALUES (:title, :genre, :director, :cast, :plot)", {'title': resp_dict["Title"], 'genre': resp_dict["Genre"], 'director': resp_dict["Director"], 'cast' : resp_dict["Actors"], 'plot' : resp_dict["Plot"]})
+                conn.commit()
+>>>>>>> parent of f13de00 (hopefully the deployment works)
     else:
         return 0, ["Movie Not Found"]
     
-    movie_dataframe = conn.query("select * from movies")
+    sql_query = pd.read_sql_query("select * from movies", conn)
+
+    movie_dataframe = pd.DataFrame(sql_query)
 
     clean_df(movie_dataframe)
 
