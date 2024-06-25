@@ -5,3 +5,4 @@ gensim
 requests
 streamlit
 sqlalchemy==1.4.0
+nltk
