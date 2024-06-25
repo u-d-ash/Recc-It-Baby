@@ -70,7 +70,6 @@ def get_rex(movie_name, dir_w, cast_w, gen_w):
             try:
                 session.execute(text("insert into movies values (:title, :genre, :director, :cast, :plot)"), {'title': resp_dict["Title"], 'genre': resp_dict["Genre"], 'director': resp_dict["Director"], 'cast' : resp_dict["Actors"], 'plot' : resp_dict["Plot"]})
                 session.commit()
-                session.close()
             except Exception as e:
                 print(e)
     else:
