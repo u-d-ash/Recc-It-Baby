@@ -1,9 +1,12 @@
 from imports import *
+import streamlit as st
+from streamlit.connections import SQLConnection
+from sqlalchemy import text
 
-conn = sqlite3.connect('movie_main.db', check_same_thread=False)
+conn = st.connection('movie_main', type='sql')
 
-with conn:
-   conn.execute("create table if not exists movies(title varchar, genre varchar, director varchar, cast varchar, plot varchar, primary key(title))")
+with conn.session as s:
+   s.execute(text("create table if not exists movies(title varchar, genre varchar, director varchar, cast varchar, plot varchar, primary key(title))"))
 
 dataset = pd.read_csv('clean_dataset.csv')
 
@@ -17,13 +20,14 @@ for i in range(dataset_len):
     star_studded_cast = dataset['cast'].values[i]
     the_plot_thickens = dataset['overview'].values[i]
 
-    print(opening_titles)
     try:
-        conn.execute("INSERT INTO movies VALUES (:title, :genre, :director, :cast, :plot)", {'title': opening_titles, 'genre': factions, 'director':  the_director, 'cast' : star_studded_cast, 'plot' : the_plot_thickens})
-    except:
-        print(f"sus in {opening_titles}")
+        with conn.session as s:
+            s.execute(text("INSERT INTO movies VALUES (:title, :genre, :director, :cast, :plot)"), params = {'title': opening_titles, 'genre': factions, 'director':  the_director, 'cast' : star_studded_cast, 'plot' : the_plot_thickens})
+            s.commit()
+    except Exception as e:
+        print(e)
 
-conn.commit()
+s.close()
 
 
     

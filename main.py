@@ -1,7 +1,5 @@
 import streamlit as st
 from functions import get_rex
-import pandas as pd
-import numpy as np
 
 st.set_page_config(layout="wide")
 
