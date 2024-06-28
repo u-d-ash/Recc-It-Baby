@@ -2,6 +2,10 @@
 
 Content Based Recommendation System based on Gensim Word2Vec Model, uses sqlalchemy for dynamic management of database and Streamlit for UI.
 
+To Run : 
+* Clone The Repository
+* `streamlit run main.py`
+
 Working : 
 <p align = "center">
   <img src="https://github.com/u-d-ash/Word-To-Recc/blob/main/screenshot.png" align = "center" alt="drawing" width="625.2" height="364.4"/>
