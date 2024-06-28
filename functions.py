@@ -74,11 +74,6 @@ def get_rex(movie_name, dir_w, cast_w, gen_w):
                 print(e)
     else:
         return 0, ["Movie Not Found"]
-    
-    engine = create_engine('sqlite:///movie_main.db')
-
-    Session = sessionmaker(bind=engine)
-    session = Session()
 
     with engine.connect() as conn:
 
